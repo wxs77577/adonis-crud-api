@@ -1,27 +1,33 @@
 'use strict'
 
 const inflect = require('i')()
-const Validator = use('Adonis/Addons/Validator')
 const BaseRestController = require('adonis-rest')
 const Database = use('Database')
 
 // class RestfulController {
 class RestController extends BaseRestController {
 
-  get config () {
-    return {
+  get config() {
+    return Object.assign({}, super.config, {
+      grid: {
+        sort: '-id', //or '-id' for desc
+        create: true, //show create button
+        update: true, //show update button
+        delete: true //show delete button
+      },
       index: {
-        hidden: 'updated_at',
-        extra: 'body',
-        expand: 'user'
+        pagination: true,
+        // hidden: 'updated_at',
+        // extra: 'body',
+        // expand: 'user',
       },
       detail: {
-        expand: 'user'
+        // expand: 'user'
       }
-    }
+    })
   }
 
-  * columns (table) {
+  * columns(table) {
     const data = {}
     const columns = yield Database.table(table).columnInfo()
     const types = {
@@ -37,6 +43,7 @@ class RestController extends BaseRestController {
       data[name] = {
         value: name,
         text: inflect.titleize(name),
+        label: inflect.titleize(name),
         required: !field.nullable,
         maxLenth: field.maxLenth,
         dataType: field.type,
@@ -46,37 +53,40 @@ class RestController extends BaseRestController {
     return data
   }
 
+  * filter(request, response) {
+    return {
+      model: {
+        title: '',
+        created_at: ''
+      },
+      fields: this.columns,
+      rules: {}
+    }
+  }
+
   * grid(request, response) {
-    const singular = inflect.singularize(request.param('resource'))
-    // let columns = [
-    //   {
-    //     text: 'ID',
-    //     value: 'id'
-    //   }
-    // ]
-    let columns = Object.values(yield this.columns(request.param('resource')))
+    yield this.prepare(request)
+    let columns = Object.values(yield this.columns(this.Model.table))
     columns = columns.filter(v => {
       return v.dataType !== 'text'
     })
+
     let data = {
-      columns: columns
+      columns: columns,
+      options: this.config.grid,
+      filters: yield this.filter(request, response),
+      extra: this.config.index.expand,
     }
     response.json(data)
   }
 
   * form(request, response) {
-    const Model = this.resource(request.param('resource'))
-    const singular = inflect.singularize(request.param('resource'))
-
-    let model = new Model
-    let id
-    if (request) {
-      id = request.param('id')
-      if (id) {
-        model = yield this.model.query().where('id', id).first()
-      }
+    yield this.prepare(request)
+    let model = new this.Model
+    if (this.id) {
+      model = yield this.getInstance(request)
     }
-    let fields = yield this.columns()
+    let fields = yield this.columns(this.Model.table)
     let data = {
       model: model.toJSON(),
       fields: fields,
@@ -85,7 +95,6 @@ class RestController extends BaseRestController {
     }
     response.json(data)
   }
-
 }
 
 module.exports = RestController
