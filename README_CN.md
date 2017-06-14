@@ -1,30 +1,43 @@
-# adonis-rest
-基于AdonisJs的Restful API基础构件， AdonisJs中文网： [https://adonis-china.org](https://adonis-china.org)
+# adonis-crud-api
+CRUD restful api for [AdonisJs](http://www.adonisjs.com/) and [Adminify](https://github.com/wxs77577/adminify), the key is the `grid` and `form` routes.  Based on [Adonis Rest](https://github.com/wxs77577/adonis-rest)
 
-## 安装
+### Welcome to [https://adonis-china.org](https://adonis-china.org)
 
-1. `cnpm install --save adonis-crud-api`
+## [中文文档](README_CN.md)
 
+## Install
 
-## 准备
-Tips: 请确保你的`/app/Model/`目录里有一些模型文件.  如果没有的话可以用 `./ace make:model News` 来创建一个新闻模型
+1. `npm install --save adonis-crud-api`
 
-> /app/Http/routes.js
+## Prepare
+
+### Add routes to your `/app/Http/routes.js` 
 ``` javascript
-Route.put('/api/:resource', 'RestController.update') //可选
-Route.resource('/api/:resource', 'RestController')
+Route.put('/api/:resource', 'CrudController.update') //optional
+Route.get('/api/:resource/grid', 'CrudController.grid') //the grid configurations for the list grid view
+Route.get('/api/:resource/form', 'CrudController.form') //the form configurations for create
+Route.get('/api/:resource/:id/form', 'CrudController.form') // the form configurations for edit
+Route.resource('/api/:resource', 'CrudController') //CRUD for resources
+Route.resource('/api/:parent/:parentId/:resource', 'CrudController') //CRUD for netsted resource (In Progress...)
 ```
-
-> Create `/app/Http/Controllers/RestController.js`
+### Create `/app/Http/Controllers/CrudController.js`
 
 ``` javascript
 'use strict'
 
 const BaseRestController = require('adonis-crud-api')
 
-class RestController  extends BaseRestController{
+class CrudController  extends BaseRestController{
 
 }
 
-module.exports = RestController
+module.exports = CrudController
 ```
+
+## That's all
+
+## Routes
+- Please check [Adonis Rest](https://github.com/wxs77577/adonis-rest) for basic CRUD routes
+- `/api/:resource/grid` Get grid configurations for [Adminify](https://github.com/wxs77577/adminify) or your own frontend frameworks.
+- `/api/:resource/form` Get form configurations for [Adminify](https://github.com/wxs77577/adminify) or your own frontend frameworks.
+
