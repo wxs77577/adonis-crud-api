@@ -1,6 +1,6 @@
 {
   "name": "adonis-crud-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CRUD Restful api for AdonisJs and Adminify",
   "main": "index.js",
   "scripts": {

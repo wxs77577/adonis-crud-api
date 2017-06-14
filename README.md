@@ -5,6 +5,14 @@ CRUD restful api for [AdonisJs](http://www.adonisjs.com/) and [Adminify](https:/
 
 ## [中文文档](README_CN.md)
 
+## Screenshots
+
+### Grid
+![file](https://adonis-china.org/uploads/post-body-1497455501361.png)
+
+### Form
+![file](https://adonis-china.org/uploads/post-body-1497455572312.png)
+
 ## Install
 
 1. `npm install --save adonis-crud-api`
@@ -40,4 +48,3 @@ module.exports = CrudController
 - Please check [Adonis Rest](https://github.com/wxs77577/adonis-rest) for basic CRUD routes
 - `/api/:resource/grid` Get grid configurations for [Adminify](https://github.com/wxs77577/adminify) or your own frontend frameworks.
 - `/api/:resource/form` Get form configurations for [Adminify](https://github.com/wxs77577/adminify) or your own frontend frameworks.
-
