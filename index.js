@@ -34,7 +34,8 @@ class RestController extends BaseRestController {
       int: 'number',
       varchar: 'text',
       char: 'text',
-      text: 'textarea'
+      text: 'textarea',
+      timestamp: 'datetime',
     }
     for (let name in columns) {
       let field = columns[name]
@@ -54,13 +55,25 @@ class RestController extends BaseRestController {
   }
 
   * filter(request, response) {
+    yield this.prepare(request)
+    let columns = yield this.columns(this.Model.table)
+    let model = {}
+    let rules = {}
+    let fields = {}
+    let i = 0
+    for (let name in columns) {
+      if (++i > 3) {
+        break;
+      }
+      fields[name] = columns[name]
+      fields[name].required = false
+      model[name] = ''
+    }
+    
     return {
-      model: {
-        title: '',
-        created_at: ''
-      },
-      fields: this.columns,
-      rules: {}
+      model,
+      fields,
+      rules
     }
   }
 
