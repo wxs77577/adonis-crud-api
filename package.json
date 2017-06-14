@@ -1,0 +1,23 @@
+{
+  "name": "adonis-crud-api",
+  "version": "1.0.0",
+  "description": "CRUD Restful api for AdonisJs and Adminify",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wxs77577/adonis-crud-api.git"
+  },
+  "dependencies": {
+    "adonis-rest": "^1.0.0"
+  },
+  "keywords": [],
+  "author": "wxs77577",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wxs77577/adonis-crud-api/issues"
+  },
+  "homepage": "https://github.com/wxs77577/adonis-crud-api#readme"
+}
